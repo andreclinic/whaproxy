@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Team;
+use App\Models\Instance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Representa um Setup / Instalação da Evolution API
@@ -15,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Setup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Setup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Setup query()
@@ -25,9 +30,38 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Setup whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setup whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setup whereUrl($value)
+ *
  * @mixin \Eloquent
  */
 class Setup extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'team_id',
+        'name',
+        'url',
+        'token',
+    ];
+
+    /**
+     * Get the team that the invitation belongs to.
+     */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    /**
+     * Get the instances the Setup.
+     */
+    public function instances(): HasMany
+    {
+        return $this->hasMany(Instance::class);
+    }
 }
