@@ -29,7 +29,7 @@ class FirstRun extends Command
     public function handle()
     {
         $name = text('Qual e o seu nome?');
-        $confirmed = confirm($name.' Do you accept the terms?');
-        $this->info('Você e o '.$name);
+        $confirmed = confirm($name . ' Do you accept the terms?');
+        $this->info('Você e o ' . $name);
     }
 }
